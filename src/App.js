@@ -18,8 +18,7 @@ class App extends Component {
     this.state = {
       chatData: [
         {
-          msg:
-            "Hello, Welcome!!! I am Gireesh Bandlamudi. Don't panic you are chatting with my spirit. \n\nA piece of advice give respect.",
+          msg: "Hello, Welcome!!! I am Gireesh Bandlamudi. Don't panic you are chatting with my spirit. \n\nA piece of advice give respect.",
           type: "from"
         }
       ],
@@ -66,11 +65,11 @@ class App extends Component {
               type: "from"
             }),
             msgInput: ""
+          }, ()=> {
+            setTimeout(() => {
+              this.scrollView.scrollToEnd({ animated: true });
+            }, 100);
           });
-          setTimeout(() => {
-            this.scrollView.scrollToEnd({ animated: true });
-            this.queryText.focus();
-          }, 100);
         });
 
       setTimeout(() => {
