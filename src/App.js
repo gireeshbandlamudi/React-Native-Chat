@@ -27,6 +27,17 @@ class App extends Component {
     };
   }
 
+  componentDidMount(){
+    this.queryText.focus();
+  }
+
+  // Code to handle return key press.
+  _handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      this.sendMessage();
+    }
+  }
+
   //Code to handle to sendMessage
   sendMessage = () => {
     // console.log(this.state.msgInput);
@@ -58,6 +69,7 @@ class App extends Component {
           });
           setTimeout(() => {
             this.scrollView.scrollToEnd({ animated: true });
+            this.queryText.focus();
           }, 100);
         });
 
@@ -83,7 +95,6 @@ class App extends Component {
             width: "100%",
             height: 80,
             backgroundColor: "#e67e22",
-            justifyContent: "center",
             padding: 10,
             flexDirection: "row",
             justifyContent: "flex-start"
@@ -123,7 +134,8 @@ class App extends Component {
           }}
         >
           <TextInput
-            placeholder="Please type your message here"
+            ref={(input) => { this.queryText = input; }}
+            placeholder="Please type your query here"
             onChangeText={text => {
               this.setState({ msgInput: text });
             }}
@@ -134,6 +146,7 @@ class App extends Component {
               backgroundColor: "#ecf0f1",
               fontSize: 20
             }}
+            onSubmitEditing={this._handleKeyDown}
           />
           <TouchableOpacity
             style={{

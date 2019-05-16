@@ -10,7 +10,7 @@ class ChatBubble extends Component {
           <View style={styles.talkBubble}>
             <View
               style={[
-                styles.talkBubbleSquare,
+                this.props.bubbleType === 'left' ? styles.talkBubbleSquareLeft : styles.talkBubbleSquareRight,
                 { justifyContent: "center", alignItems: "center" },
                 this.props.bubbleType === 'left' ? {backgroundColor: "#3498db",} : {backgroundColor: "#34495e",}
               ]}
@@ -19,7 +19,7 @@ class ChatBubble extends Component {
                 {this.props.msg}
               </Text>
             </View>
-            <View style={ this.props.bubbleType === 'left' ? styles.talkBubbleTriangleRight : styles.talkBubbleTriangleLeft} />
+            <View style={this.props.bubbleType === 'left' ? styles.talkBubbleTriangleRight : styles.talkBubbleTriangleLeft} />
           </View>
         </View>
     );
@@ -35,12 +35,28 @@ const styles = StyleSheet.create({
     // height: 80,
     flex: 1,
     // backgroundColor: "#3498db",
-    borderRadius: 10
+    borderRadius: 5,
+  },
+  talkBubbleSquareLeft: {
+    width: 280,
+    flex: 1,
+    borderTopRightRadius: 11,
+    borderBottomRightRadius: 5,
+    borderBottomLeftRadius: 5,
+    borderTopLeftRadius: 5,
+  },
+  talkBubbleSquareRight: {
+    width: 280,
+    flex: 1,
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
+    borderBottomLeftRadius: 5,
+    borderTopLeftRadius: 11,
   },
   talkBubbleTriangleRight: {
     position: "absolute",
     right: -20,
-    top: 10,
+    top: 1,
     width: 0,
     height: 0,
     borderTopColor: "transparent",
@@ -53,7 +69,7 @@ const styles = StyleSheet.create({
   talkBubbleTriangleLeft: {
     position: "absolute",
     left: -20,
-    top: 10,
+    top: 1,
     width: 0,
     height: 0,
     borderTopColor: "transparent",
