@@ -1,16 +1,15 @@
 /**
- * Copyright (c) 2015-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @providesModule EventValidator
+ * @format
  * 
  */
 'use strict';
 
 var __DEV__ = process.env.NODE_ENV !== 'production';
-
 /**
  * EventValidator is designed to validate event types to make it easier to catch
  * common mistakes. It accepts a map of all of the different types of events
@@ -20,6 +19,8 @@ var __DEV__ = process.env.NODE_ENV !== 'production';
  * mistyped the event name it will suggest what you might have meant to type in
  * the error message.
  */
+
+
 var EventValidator = {
   /**
    * @param {Object} emitter - The object responsible for emitting the actual
@@ -34,14 +35,12 @@ var EventValidator = {
   addValidation: function addValidation(emitter, types) {
     var eventTypes = Object.keys(types);
     var emitterWithValidation = Object.create(emitter);
-
     Object.assign(emitterWithValidation, {
       emit: function emit(type, a, b, c, d, e, _) {
         assertAllowsEventType(type, eventTypes);
         return emitter.emit.call(this, type, a, b, c, d, e, _);
       }
     });
-
     return emitterWithValidation;
   }
 };
@@ -54,17 +53,20 @@ function assertAllowsEventType(type, allowedTypes) {
 
 function errorMessageFor(type, allowedTypes) {
   var message = 'Unknown event type "' + type + '". ';
+
   if (__DEV__) {
     message += recommendationFor(type, allowedTypes);
   }
+
   message += 'Known event types: ' + allowedTypes.join(', ') + '.';
   return message;
-}
+} // Allow for good error messages
 
-// Allow for good error messages
+
 if (__DEV__) {
   var recommendationFor = function recommendationFor(type, allowedTypes) {
     var closestTypeRecommendation = closestTypeFor(type, allowedTypes);
+
     if (isCloseEnough(closestTypeRecommendation, type)) {
       return 'Did you mean "' + closestTypeRecommendation.type + '"? ';
     } else {
@@ -99,8 +101,7 @@ if (__DEV__) {
   };
 
   var damerauLevenshteinDistance = function damerauLevenshteinDistance(a, b) {
-    var i = void 0,
-        j = void 0;
+    var i, j;
     var d = [];
 
     for (i = 0; i <= a.length; i++) {
@@ -114,7 +115,6 @@ if (__DEV__) {
     for (i = 1; i <= a.length; i++) {
       for (j = 1; j <= b.length; j++) {
         var cost = a.charAt(i - 1) === b.charAt(j - 1) ? 0 : 1;
-
         d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + cost);
 
         if (i > 1 && j > 1 && a.charAt(i - 1) === b.charAt(j - 2) && a.charAt(i - 2) === b.charAt(j - 1)) {

@@ -1,62 +1,47 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @format
+ * 
+ */
 'use strict';
 
 exports.__esModule = true;
+exports.default = void 0;
 
-var _react = require('react');
+var React = _interopRequireWildcard(require("react"));
 
-var _propTypes = require('prop-types');
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; subClass.__proto__ = superClass; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (c) 2015-present, Nicolas Gallagher.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (c) 2015-present, Facebook, Inc.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This source code is licensed under the MIT license found in the
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * LICENSE file in the root directory of this source tree.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-
-/**
- * Renders static content efficiently by allowing React to short-circuit the
- * reconciliation process. This component should be used when you know that a
- * subtree of components will never need to be updated.
- *
- *   const someValue = ...; // We know for certain this value will never change.
- *   return (
- *     <StaticRenderer render={() => <MyComponent value={someValue} />} />
- *   );
- *
- * Typically, you will not need to use this component and should opt for normal
- * React reconciliation.
- */
-
-var StaticRenderer = function (_Component) {
-  _inherits(StaticRenderer, _Component);
+var StaticRenderer =
+/*#__PURE__*/
+function (_React$Component) {
+  _inheritsLoose(StaticRenderer, _React$Component);
 
   function StaticRenderer() {
-    _classCallCheck(this, StaticRenderer);
-
-    return _possibleConstructorReturn(this, _Component.apply(this, arguments));
+    return _React$Component.apply(this, arguments) || this;
   }
 
-  StaticRenderer.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps) {
+  var _proto = StaticRenderer.prototype;
+
+  _proto.shouldComponentUpdate = function shouldComponentUpdate(nextProps) {
     return nextProps.shouldUpdate;
   };
 
-  StaticRenderer.prototype.render = function render() {
+  _proto.render = function render() {
     return this.props.render();
   };
 
   return StaticRenderer;
-}(_react.Component);
+}(React.Component);
 
-exports.default = StaticRenderer;
-StaticRenderer.propTypes = process.env.NODE_ENV !== "production" ? {
-  render: _propTypes.func.isRequired,
-  shouldUpdate: _propTypes.bool.isRequired
-} : {};
-module.exports = exports['default'];
+var _default = StaticRenderer;
+exports.default = _default;
+module.exports = exports.default;

@@ -1,6 +1,16 @@
 "use strict";
 
 exports.__esModule = true;
+exports.default = void 0;
+
+/**
+ * Copyright (c) Nicolas Gallagher.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
 function flattenArray(array) {
   function flattenDown(array, result) {
     for (var i = 0; i < array.length; i++) {
@@ -15,8 +25,10 @@ function flattenArray(array) {
 
     return result;
   }
+
   return flattenDown(array, []);
 }
 
-exports.default = flattenArray;
-module.exports = exports["default"];
+var _default = flattenArray;
+exports.default = _default;
+module.exports = exports.default;

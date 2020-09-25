@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) Nicolas Gallagher.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
 function flattenArray(array) {
   function flattenDown(array, result) {
     for (var i = 0; i < array.length; i++) {
@@ -12,6 +20,7 @@ function flattenArray(array) {
 
     return result;
   }
+
   return flattenDown(array, []);
 }
 

@@ -1,12 +1,21 @@
-'use strict';
+"use strict";
 
 exports.__esModule = true;
+exports.default = void 0;
 
-var _UIManager = require('../../exports/UIManager');
-
-var _UIManager2 = _interopRequireDefault(_UIManager);
+var _UIManager = _interopRequireDefault(require("../../exports/UIManager"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Copyright (c) Nicolas Gallagher.
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
 
 /**
  * This class is responsible for coordinating the "focused"
@@ -27,9 +36,9 @@ var TextInputState = {
     if (document.activeElement !== this._currentlyFocusedNode) {
       this._currentlyFocusedNode = null;
     }
+
     return this._currentlyFocusedNode;
   },
-
 
   /**
    * @param {Object} TextInputID id of the text field to focus
@@ -39,12 +48,12 @@ var TextInputState = {
   focusTextInput: function focusTextInput(textFieldNode) {
     if (textFieldNode !== null) {
       this._currentlyFocusedNode = textFieldNode;
+
       if (document.activeElement !== textFieldNode) {
-        _UIManager2.default.focus(textFieldNode);
+        _UIManager.default.focus(textFieldNode);
       }
     }
   },
-
 
   /**
    * @param {Object} textFieldNode id of the text field to focus
@@ -54,20 +63,13 @@ var TextInputState = {
   blurTextInput: function blurTextInput(textFieldNode) {
     if (textFieldNode !== null) {
       this._currentlyFocusedNode = null;
+
       if (document.activeElement === textFieldNode) {
-        _UIManager2.default.blur(textFieldNode);
+        _UIManager.default.blur(textFieldNode);
       }
     }
   }
-}; /**
-    * Copyright (c) 2015-present, Nicolas Gallagher.
-    * Copyright (c) 2015-present, Facebook, Inc.
-    *
-    * This source code is licensed under the MIT license found in the
-    * LICENSE file in the root directory of this source tree.
-    *
-    * 
-    */
-
-exports.default = TextInputState;
-module.exports = exports['default'];
+};
+var _default = TextInputState;
+exports.default = _default;
+module.exports = exports.default;

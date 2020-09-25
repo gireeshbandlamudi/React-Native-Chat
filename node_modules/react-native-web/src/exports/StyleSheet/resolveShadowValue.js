@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2018-present, Nicolas Gallagher.
+ * Copyright (c) Nicolas Gallagher.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -8,18 +8,18 @@
  */
 
 import normalizeColor from '../../modules/normalizeColor';
-import normalizeValue from './normalizeValue';
+import normalizeValueWithProperty from './normalizeValueWithProperty';
 
 const defaultOffset = { height: 0, width: 0 };
 
 const resolveShadowValue = (style: Object) => {
   const { shadowColor, shadowOffset, shadowOpacity, shadowRadius } = style;
   const { height, width } = shadowOffset || defaultOffset;
-  const offsetX = normalizeValue(null, width);
-  const offsetY = normalizeValue(null, height);
-  const blurRadius = normalizeValue(null, shadowRadius || 0);
+  const offsetX = normalizeValueWithProperty(width);
+  const offsetY = normalizeValueWithProperty(height);
+  const blurRadius = normalizeValueWithProperty(shadowRadius || 0);
   const color = normalizeColor(shadowColor || 'black', shadowOpacity);
-  if (color) {
+  if (color != null && offsetX != null && offsetY != null && blurRadius != null) {
     return `${offsetX} ${offsetY} ${blurRadius} ${color}`;
   }
 };

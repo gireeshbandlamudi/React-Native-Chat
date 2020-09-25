@@ -1,37 +1,30 @@
-'use strict';
+"use strict";
 
 exports.__esModule = true;
+exports.default = void 0;
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * Copyright (c) 2018-present, Nicolas Gallagher.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * Copyright (c) 2016-present, Facebook, Inc.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * This source code is licensed under the MIT license found in the
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * LICENSE file in the root directory of this source tree.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      */
-
-var _invariant = require('fbjs/lib/invariant');
-
-var _invariant2 = _interopRequireDefault(_invariant);
+var _invariant = _interopRequireDefault(require("fbjs/lib/invariant"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-var Share = function () {
-  function Share() {
-    _classCallCheck(this, Share);
-  }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-  Share.share = function share(content) {
-    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+var Share =
+/*#__PURE__*/
+function () {
+  function Share() {}
 
-    (0, _invariant2.default)(typeof content === 'object' && content !== null, 'Content to share must be a valid object');
-    (0, _invariant2.default)(typeof content.url === 'string' || typeof content.message === 'string', 'At least one of URL and message is required');
-    (0, _invariant2.default)(typeof options === 'object' && options !== null, 'Options must be a valid object');
-    (0, _invariant2.default)(!content.title || typeof content.title === 'string', 'Invalid title: title should be a string.');
+  Share.share = function share(content, options) {
+    if (options === void 0) {
+      options = {};
+    }
+
+    (0, _invariant.default)(typeof content === 'object' && content !== null, 'Content to share must be a valid object');
+    (0, _invariant.default)(typeof content.url === 'string' || typeof content.message === 'string', 'At least one of URL and message is required');
+    (0, _invariant.default)(typeof options === 'object' && options !== null, 'Options must be a valid object');
+    (0, _invariant.default)(!content.title || typeof content.title === 'string', 'Invalid title: title should be a string.');
 
     if (window.navigator.share !== undefined) {
       return window.navigator.share({
@@ -42,26 +35,24 @@ var Share = function () {
     } else {
       return Promise.reject(new Error('Share is not supported in this browser'));
     }
-  };
-
+  }
   /**
    * The content was successfully shared.
    */
-
+  ;
 
   _createClass(Share, null, [{
-    key: 'sharedAction',
+    key: "sharedAction",
     get: function get() {
       return 'sharedAction';
     }
-
     /**
      * The dialog has been dismissed.
      * @platform ios
      */
 
   }, {
-    key: 'dismissedAction',
+    key: "dismissedAction",
     get: function get() {
       return 'dismissedAction';
     }
@@ -70,5 +61,6 @@ var Share = function () {
   return Share;
 }();
 
-exports.default = Share;
-module.exports = exports['default'];
+var _default = Share;
+exports.default = _default;
+module.exports = exports.default;

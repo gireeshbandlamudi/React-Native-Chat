@@ -1,12 +1,23 @@
-'use strict';
+"use strict";
 
 exports.__esModule = true;
+exports.default = void 0;
 
-var _unitlessNumbers = require('../../../modules/unitlessNumbers');
-
-var _unitlessNumbers2 = _interopRequireDefault(_unitlessNumbers);
+var _unitlessNumbers = _interopRequireDefault(require("../../../modules/unitlessNumbers"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/* eslint-disable */
+
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * From React 16.0.0
+ * 
+ */
 
 /**
  * Convert a value into the proper css writable value. The style name `name`
@@ -27,27 +38,19 @@ function dangerousStyleValue(name, value, isCustomProperty) {
   // This is not an XSS hole but instead a potential CSS injection issue
   // which has lead to a greater discussion about how we're going to
   // trust URLs moving forward. See #2115901
-
   var isEmpty = value == null || typeof value === 'boolean' || value === '';
+
   if (isEmpty) {
     return '';
   }
 
-  if (!isCustomProperty && typeof value === 'number' && value !== 0 && !(_unitlessNumbers2.default.hasOwnProperty(name) && _unitlessNumbers2.default[name])) {
+  if (!isCustomProperty && typeof value === 'number' && value !== 0 && !(_unitlessNumbers.default.hasOwnProperty(name) && _unitlessNumbers.default[name])) {
     return value + 'px'; // Presumes implicit 'px' suffix for unitless numbers
   }
 
   return ('' + value).trim();
-} /* eslint-disable */
+}
 
-/**
- * Copyright 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- * From React 16.0.0
- */
-
-exports.default = dangerousStyleValue;
-module.exports = exports['default'];
+var _default = dangerousStyleValue;
+exports.default = _default;
+module.exports = exports.default;

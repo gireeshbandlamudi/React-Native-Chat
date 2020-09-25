@@ -1,14 +1,11 @@
 /**
- * Copyright (c) 2016-present, Nicolas Gallagher.
+ * Copyright (c) Nicolas Gallagher.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
  * @flow
  */
-
-// Prevent browsers throwing parse errors, e.g., on vendor-prefixed pseudo-elements
-const safeRule = rule => `@media all{\n${rule}\n}`;
 
 const resets = [
   // minimal top-level reset
@@ -21,6 +18,4 @@ const resets = [
     'input::-webkit-search-results-button,input::-webkit-search-results-decoration{display:none;}'
 ];
 
-const reset = [safeRule(resets.join('\n'))];
-
-export default reset;
+export default resets;

@@ -1,16 +1,17 @@
 /**
- * Copyright (c) 2018-present, Nicolas Gallagher.
+ * Copyright (c) Nicolas Gallagher.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
  * 
  */
-
 import normalizeColor from '../../modules/normalizeColor';
-import normalizeValue from './normalizeValue';
-
-var defaultOffset = { height: 0, width: 0 };
+import normalizeValueWithProperty from './normalizeValueWithProperty';
+var defaultOffset = {
+  height: 0,
+  width: 0
+};
 
 var resolveShadowValue = function resolveShadowValue(style) {
   var shadowColor = style.shadowColor,
@@ -22,12 +23,13 @@ var resolveShadowValue = function resolveShadowValue(style) {
       height = _ref.height,
       width = _ref.width;
 
-  var offsetX = normalizeValue(null, width);
-  var offsetY = normalizeValue(null, height);
-  var blurRadius = normalizeValue(null, shadowRadius || 0);
+  var offsetX = normalizeValueWithProperty(width);
+  var offsetY = normalizeValueWithProperty(height);
+  var blurRadius = normalizeValueWithProperty(shadowRadius || 0);
   var color = normalizeColor(shadowColor || 'black', shadowOpacity);
-  if (color) {
-    return offsetX + ' ' + offsetY + ' ' + blurRadius + ' ' + color;
+
+  if (color != null && offsetX != null && offsetY != null && blurRadius != null) {
+    return offsetX + " " + offsetY + " " + blurRadius + " " + color;
   }
 };
 

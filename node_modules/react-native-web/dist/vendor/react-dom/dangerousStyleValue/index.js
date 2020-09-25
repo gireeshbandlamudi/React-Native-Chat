@@ -1,16 +1,15 @@
 /* eslint-disable */
 
 /**
- * Copyright 2013-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
  * From React 16.0.0
+ * 
  */
-
 import isUnitlessNumber from '../../../modules/unitlessNumbers';
-
 /**
  * Convert a value into the proper css writable value. The style name `name`
  * should be logical (no hyphens), as specified
@@ -20,6 +19,7 @@ import isUnitlessNumber from '../../../modules/unitlessNumbers';
  * @param {*} value CSS property value such as `10px`.
  * @return {string} Normalized style value with dimensions applied.
  */
+
 function dangerousStyleValue(name, value, isCustomProperty) {
   // Note that we've removed escapeTextForBrowser() calls here since the
   // whole string will be escaped when the attribute is injected into
@@ -30,8 +30,8 @@ function dangerousStyleValue(name, value, isCustomProperty) {
   // This is not an XSS hole but instead a potential CSS injection issue
   // which has lead to a greater discussion about how we're going to
   // trust URLs moving forward. See #2115901
-
   var isEmpty = value == null || typeof value === 'boolean' || value === '';
+
   if (isEmpty) {
     return '';
   }

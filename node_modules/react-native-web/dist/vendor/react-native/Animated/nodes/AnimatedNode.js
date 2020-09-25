@@ -9,68 +9,173 @@
  */
 'use strict';
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 import NativeAnimatedHelper from '../NativeAnimatedHelper';
-
 import invariant from 'fbjs/lib/invariant';
-
-// Note(vjeux): this would be better as an interface but flow doesn't
+var NativeAnimatedAPI = NativeAnimatedHelper.API;
+var _uniqueId = 1; // Note(vjeux): this would be better as an interface but flow doesn't
 // support them yet
 
-var AnimatedNode = function () {
-  function AnimatedNode() {
-    _classCallCheck(this, AnimatedNode);
-  }
+var AnimatedNode =
+/*#__PURE__*/
+function () {
+  var _proto = AnimatedNode.prototype;
 
-  AnimatedNode.prototype.__attach = function __attach() {};
+  _proto.__attach = function __attach() {};
 
-  AnimatedNode.prototype.__detach = function __detach() {
+  _proto.__detach = function __detach() {
     if (this.__isNative && this.__nativeTag != null) {
       NativeAnimatedHelper.API.dropAnimatedNode(this.__nativeTag);
       this.__nativeTag = undefined;
     }
   };
 
-  AnimatedNode.prototype.__getValue = function __getValue() {};
+  _proto.__getValue = function __getValue() {};
 
-  AnimatedNode.prototype.__getAnimatedValue = function __getAnimatedValue() {
+  _proto.__getAnimatedValue = function __getAnimatedValue() {
     return this.__getValue();
   };
 
-  AnimatedNode.prototype.__addChild = function __addChild(child) {};
+  _proto.__addChild = function __addChild(child) {};
 
-  AnimatedNode.prototype.__removeChild = function __removeChild(child) {};
+  _proto.__removeChild = function __removeChild(child) {};
 
-  AnimatedNode.prototype.__getChildren = function __getChildren() {
+  _proto.__getChildren = function __getChildren() {
     return [];
-  };
-
+  }
   /* Methods and props used by native Animated impl */
+  ;
 
+  function AnimatedNode() {
+    this._listeners = {};
+  }
 
-  AnimatedNode.prototype.__makeNative = function __makeNative() {
+  _proto.__makeNative = function __makeNative() {
     if (!this.__isNative) {
       throw new Error('This node cannot be made a "native" animated node');
     }
+
+    if (this.hasListeners()) {
+      this._startListeningToNativeValueUpdates();
+    }
+  }
+  /**
+   * Adds an asynchronous listener to the value so you can observe updates from
+   * animations.  This is useful because there is no way to
+   * synchronously read the value because it might be driven natively.
+   *
+   * See http://facebook.github.io/react-native/docs/animatedvalue.html#addlistener
+   */
+  ;
+
+  _proto.addListener = function addListener(callback) {
+    var id = String(_uniqueId++);
+    this._listeners[id] = callback;
+
+    if (this.__isNative) {
+      this._startListeningToNativeValueUpdates();
+    }
+
+    return id;
+  }
+  /**
+   * Unregister a listener. The `id` param shall match the identifier
+   * previously returned by `addListener()`.
+   *
+   * See http://facebook.github.io/react-native/docs/animatedvalue.html#removelistener
+   */
+  ;
+
+  _proto.removeListener = function removeListener(id) {
+    delete this._listeners[id];
+
+    if (this.__isNative && !this.hasListeners()) {
+      this._stopListeningForNativeValueUpdates();
+    }
+  }
+  /**
+   * Remove all registered listeners.
+   *
+   * See http://facebook.github.io/react-native/docs/animatedvalue.html#removealllisteners
+   */
+  ;
+
+  _proto.removeAllListeners = function removeAllListeners() {
+    this._listeners = {};
+
+    if (this.__isNative) {
+      this._stopListeningForNativeValueUpdates();
+    }
   };
 
-  AnimatedNode.prototype.__getNativeTag = function __getNativeTag() {
+  _proto.hasListeners = function hasListeners() {
+    return !!Object.keys(this._listeners).length;
+  };
+
+  _proto._startListeningToNativeValueUpdates = function _startListeningToNativeValueUpdates() {
+    var _this = this;
+
+    if (this.__nativeAnimatedValueListener && !this.__shouldUpdateListenersForNewNativeTag) {
+      return;
+    }
+
+    if (this.__shouldUpdateListenersForNewNativeTag) {
+      this.__shouldUpdateListenersForNewNativeTag = false;
+
+      this._stopListeningForNativeValueUpdates();
+    }
+
+    NativeAnimatedAPI.startListeningToAnimatedNodeValue(this.__getNativeTag());
+    this.__nativeAnimatedValueListener = NativeAnimatedHelper.nativeEventEmitter.addListener('onAnimatedValueUpdate', function (data) {
+      if (data.tag !== _this.__getNativeTag()) {
+        return;
+      }
+
+      _this._onAnimatedValueUpdateReceived(data.value);
+    });
+  };
+
+  _proto._onAnimatedValueUpdateReceived = function _onAnimatedValueUpdateReceived(value) {
+    this.__callListeners(value);
+  };
+
+  _proto.__callListeners = function __callListeners(value) {
+    for (var _key in this._listeners) {
+      this._listeners[_key]({
+        value: value
+      });
+    }
+  };
+
+  _proto._stopListeningForNativeValueUpdates = function _stopListeningForNativeValueUpdates() {
+    if (!this.__nativeAnimatedValueListener) {
+      return;
+    }
+
+    this.__nativeAnimatedValueListener.remove();
+
+    this.__nativeAnimatedValueListener = null;
+    NativeAnimatedAPI.stopListeningToAnimatedNodeValue(this.__getNativeTag());
+  };
+
+  _proto.__getNativeTag = function __getNativeTag() {
     NativeAnimatedHelper.assertNativeAnimatedModule();
     invariant(this.__isNative, 'Attempt to get native tag from node not marked as "native"');
+
     if (this.__nativeTag == null) {
       var nativeTag = NativeAnimatedHelper.generateNewNodeTag();
-      NativeAnimatedHelper.API.createAnimatedNode(nativeTag, this.__getNativeConfig());
       this.__nativeTag = nativeTag;
+      NativeAnimatedHelper.API.createAnimatedNode(nativeTag, this.__getNativeConfig());
+      this.__shouldUpdateListenersForNewNativeTag = true;
     }
+
     return this.__nativeTag;
   };
 
-  AnimatedNode.prototype.__getNativeConfig = function __getNativeConfig() {
+  _proto.__getNativeConfig = function __getNativeConfig() {
     throw new Error('This JS animated node type cannot be used as native animated node');
   };
 
-  AnimatedNode.prototype.toJSON = function toJSON() {
+  _proto.toJSON = function toJSON() {
     return this.__getValue();
   };
 

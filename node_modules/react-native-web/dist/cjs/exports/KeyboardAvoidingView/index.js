@@ -1,89 +1,72 @@
-'use strict';
+"use strict";
 
 exports.__esModule = true;
+exports.default = void 0;
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+var _View = _interopRequireDefault(require("../View"));
 
-var _View = require('../View');
-
-var _View2 = _interopRequireDefault(_View);
-
-var _propTypes = require('prop-types');
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _ViewPropTypes = require('../ViewPropTypes');
-
-var _ViewPropTypes2 = _interopRequireDefault(_ViewPropTypes);
+var _react = _interopRequireDefault(require("react"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; subClass.__proto__ = superClass; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (c) 2017-present, Nicolas Gallagher.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (c) 2015-present, Facebook, Inc.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This source code is licensed under the MIT license found in the
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * LICENSE file in the root directory of this source tree.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-
-var KeyboardAvoidingView = function (_Component) {
-  _inherits(KeyboardAvoidingView, _Component);
+var KeyboardAvoidingView =
+/*#__PURE__*/
+function (_React$Component) {
+  _inheritsLoose(KeyboardAvoidingView, _React$Component);
 
   function KeyboardAvoidingView() {
-    var _temp, _this, _ret;
+    var _this;
 
-    _classCallCheck(this, KeyboardAvoidingView);
-
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.frame = null, _this.onLayout = function (event) {
+    _this = _React$Component.call.apply(_React$Component, [this].concat(args)) || this;
+    _this.frame = null;
+
+    _this.onLayout = function (event) {
       _this.frame = event.nativeEvent.layout;
-    }, _temp), _possibleConstructorReturn(_this, _ret);
+    };
+
+    return _this;
   }
 
-  KeyboardAvoidingView.prototype.relativeKeyboardHeight = function relativeKeyboardHeight(keyboardFrame) {
+  var _proto = KeyboardAvoidingView.prototype;
+
+  _proto.relativeKeyboardHeight = function relativeKeyboardHeight(keyboardFrame) {
     var frame = this.frame;
+
     if (!frame || !keyboardFrame) {
       return 0;
     }
-    var keyboardY = keyboardFrame.screenY - this.props.keyboardVerticalOffset;
+
+    var keyboardY = keyboardFrame.screenY - (this.props.keyboardVerticalOffset || 0);
     return Math.max(frame.y + frame.height - keyboardY, 0);
   };
 
-  KeyboardAvoidingView.prototype.onKeyboardChange = function onKeyboardChange(event) {};
+  _proto.onKeyboardChange = function onKeyboardChange(event) {};
 
-  KeyboardAvoidingView.prototype.render = function render() {
-    var _props = this.props,
-        behavior = _props.behavior,
-        contentContainerStyle = _props.contentContainerStyle,
-        keyboardVerticalOffset = _props.keyboardVerticalOffset,
-        rest = _objectWithoutProperties(_props, ['behavior', 'contentContainerStyle', 'keyboardVerticalOffset']);
+  _proto.render = function render() {
+    var _this$props = this.props,
+        behavior = _this$props.behavior,
+        contentContainerStyle = _this$props.contentContainerStyle,
+        keyboardVerticalOffset = _this$props.keyboardVerticalOffset,
+        rest = _objectWithoutPropertiesLoose(_this$props, ["behavior", "contentContainerStyle", "keyboardVerticalOffset"]);
 
-    return _react2.default.createElement(_View2.default, _extends({ onLayout: this.onLayout }, rest));
+    return _react.default.createElement(_View.default, _extends({
+      onLayout: this.onLayout
+    }, rest));
   };
 
   return KeyboardAvoidingView;
-}(_react.Component);
+}(_react.default.Component);
 
-KeyboardAvoidingView.defaultProps = {
-  keyboardVerticalOffset: 0
-};
-KeyboardAvoidingView.propTypes = process.env.NODE_ENV !== "production" ? Object.assign({}, _ViewPropTypes2.default, {
-  behavior: (0, _propTypes.oneOf)(['height', 'padding', 'position']),
-  contentContainerStyle: _ViewPropTypes2.default.style,
-  keyboardVerticalOffset: _propTypes.number.isRequired
-}) : {};
-exports.default = KeyboardAvoidingView;
-module.exports = exports['default'];
+var _default = KeyboardAvoidingView;
+exports.default = _default;
+module.exports = exports.default;

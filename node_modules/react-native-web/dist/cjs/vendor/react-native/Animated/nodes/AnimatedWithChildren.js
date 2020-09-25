@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2015-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -10,38 +10,35 @@
 'use strict';
 
 exports.__esModule = true;
+exports.default = void 0;
 
-var _AnimatedNode2 = require('./AnimatedNode');
+var _AnimatedNode2 = _interopRequireDefault(require("./AnimatedNode"));
 
-var _AnimatedNode3 = _interopRequireDefault(_AnimatedNode2);
-
-var _NativeAnimatedHelper = require('../NativeAnimatedHelper');
-
-var _NativeAnimatedHelper2 = _interopRequireDefault(_NativeAnimatedHelper);
+var _NativeAnimatedHelper = _interopRequireDefault(require("../NativeAnimatedHelper"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; subClass.__proto__ = superClass; }
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var AnimatedWithChildren = function (_AnimatedNode) {
-  _inherits(AnimatedWithChildren, _AnimatedNode);
+var AnimatedWithChildren =
+/*#__PURE__*/
+function (_AnimatedNode) {
+  _inheritsLoose(AnimatedWithChildren, _AnimatedNode);
 
   function AnimatedWithChildren() {
-    _classCallCheck(this, AnimatedWithChildren);
+    var _this;
 
-    var _this = _possibleConstructorReturn(this, _AnimatedNode.call(this));
-
+    _this = _AnimatedNode.call(this) || this;
     _this._children = [];
     return _this;
   }
 
-  AnimatedWithChildren.prototype.__makeNative = function __makeNative() {
+  var _proto = AnimatedWithChildren.prototype;
+
+  _proto.__makeNative = function __makeNative() {
     if (!this.__isNative) {
       this.__isNative = true;
+
       for (var _iterator = this._children, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
         var _ref;
 
@@ -57,44 +54,80 @@ var AnimatedWithChildren = function (_AnimatedNode) {
         var child = _ref;
 
         child.__makeNative();
-        _NativeAnimatedHelper2.default.API.connectAnimatedNodes(this.__getNativeTag(), child.__getNativeTag());
+
+        _NativeAnimatedHelper.default.API.connectAnimatedNodes(this.__getNativeTag(), child.__getNativeTag());
       }
     }
+
+    _AnimatedNode.prototype.__makeNative.call(this);
   };
 
-  AnimatedWithChildren.prototype.__addChild = function __addChild(child) {
+  _proto.__addChild = function __addChild(child) {
     if (this._children.length === 0) {
       this.__attach();
     }
+
     this._children.push(child);
+
     if (this.__isNative) {
       // Only accept "native" animated nodes as children
       child.__makeNative();
-      _NativeAnimatedHelper2.default.API.connectAnimatedNodes(this.__getNativeTag(), child.__getNativeTag());
+
+      _NativeAnimatedHelper.default.API.connectAnimatedNodes(this.__getNativeTag(), child.__getNativeTag());
     }
   };
 
-  AnimatedWithChildren.prototype.__removeChild = function __removeChild(child) {
+  _proto.__removeChild = function __removeChild(child) {
     var index = this._children.indexOf(child);
+
     if (index === -1) {
       console.warn("Trying to remove a child that doesn't exist");
       return;
     }
+
     if (this.__isNative && child.__isNative) {
-      _NativeAnimatedHelper2.default.API.disconnectAnimatedNodes(this.__getNativeTag(), child.__getNativeTag());
+      _NativeAnimatedHelper.default.API.disconnectAnimatedNodes(this.__getNativeTag(), child.__getNativeTag());
     }
+
     this._children.splice(index, 1);
+
     if (this._children.length === 0) {
       this.__detach();
     }
   };
 
-  AnimatedWithChildren.prototype.__getChildren = function __getChildren() {
+  _proto.__getChildren = function __getChildren() {
     return this._children;
   };
 
-  return AnimatedWithChildren;
-}(_AnimatedNode3.default);
+  _proto.__callListeners = function __callListeners(value) {
+    _AnimatedNode.prototype.__callListeners.call(this, value);
 
-exports.default = AnimatedWithChildren;
-module.exports = exports['default'];
+    if (!this.__isNative) {
+      for (var _iterator2 = this._children, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
+        var _ref2;
+
+        if (_isArray2) {
+          if (_i2 >= _iterator2.length) break;
+          _ref2 = _iterator2[_i2++];
+        } else {
+          _i2 = _iterator2.next();
+          if (_i2.done) break;
+          _ref2 = _i2.value;
+        }
+
+        var child = _ref2;
+
+        if (child.__getValue) {
+          child.__callListeners(child.__getValue());
+        }
+      }
+    }
+  };
+
+  return AnimatedWithChildren;
+}(_AnimatedNode2.default);
+
+var _default = AnimatedWithChildren;
+exports.default = _default;
+module.exports = exports.default;

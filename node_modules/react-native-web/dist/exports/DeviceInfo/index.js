@@ -1,15 +1,13 @@
 /**
- * Copyright (c) 2015-present, Nicolas Gallagher.
+ * Copyright (c) Nicolas Gallagher.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
  * 
  */
-
 import { canUseDOM } from 'fbjs/lib/ExecutionEnvironment';
 import Dimensions from '../Dimensions';
-
 var DeviceInfo = {
   Dimensions: {
     get windowPhysicalPixels() {
@@ -26,6 +24,7 @@ var DeviceInfo = {
         fontScale: fontScale
       };
     },
+
     get screenPhysicalPixels() {
       var _Dimensions$get2 = Dimensions.get('screen'),
           width = _Dimensions$get2.width,
@@ -40,6 +39,7 @@ var DeviceInfo = {
         fontScale: fontScale
       };
     }
+
   },
 
   get locale() {
@@ -59,6 +59,6 @@ var DeviceInfo = {
   get userAgent() {
     return canUseDOM ? window.navigator.userAgent : '';
   }
-};
 
+};
 export default DeviceInfo;

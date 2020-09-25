@@ -1,48 +1,43 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ * @format
+ */
 'use strict';
 
 exports.__esModule = true;
+exports.default = void 0;
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+var _Platform = _interopRequireDefault(require("../../../exports/Platform"));
 
-var _UnimplementedView = require('../../../modules/UnimplementedView');
+var React = _interopRequireWildcard(require("react"));
 
-var _UnimplementedView2 = _interopRequireDefault(_UnimplementedView);
+var _ScrollView = _interopRequireDefault(require("../../../exports/ScrollView"));
 
-var _Platform = require('../../../exports/Platform');
+var _VirtualizedSectionList = _interopRequireDefault(require("../VirtualizedSectionList"));
 
-var _Platform2 = _interopRequireDefault(_Platform);
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _ScrollView = require('../../../exports/ScrollView');
-
-var _ScrollView2 = _interopRequireDefault(_ScrollView);
-
-var _VirtualizedSectionList = require('../VirtualizedSectionList');
-
-var _VirtualizedSectionList2 = _interopRequireDefault(_VirtualizedSectionList);
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; subClass.__proto__ = superClass; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (c) 2015-present, Facebook, Inc.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This source code is licensed under the MIT license found in the
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * LICENSE file in the root directory of this source tree.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @noflow
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @format
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-var defaultProps = Object.assign({}, _VirtualizedSectionList2.default.defaultProps, {
-  stickySectionHeadersEnabled: _Platform2.default.OS === 'ios'
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var defaultProps = _objectSpread({}, _VirtualizedSectionList.default.defaultProps, {
+  stickySectionHeadersEnabled: _Platform.default.OS === 'ios'
 });
 
 /**
@@ -100,25 +95,29 @@ var defaultProps = Object.assign({}, _VirtualizedSectionList2.default.defaultPro
  *   Alternatively, you can provide a custom `keyExtractor` prop.
  *
  */
-var SectionList = function (_React$PureComponent) {
-  _inherits(SectionList, _React$PureComponent);
+var SectionList =
+/*#__PURE__*/
+function (_React$PureComponent) {
+  _inheritsLoose(SectionList, _React$PureComponent);
 
   function SectionList() {
-    var _temp, _this, _ret;
+    var _this;
 
-    _classCallCheck(this, SectionList);
-
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _React$PureComponent.call.apply(_React$PureComponent, [this].concat(args))), _this), _this._captureRef = function (ref) {
-      /* $FlowFixMe(>=0.53.0 site=react_native_fb,react_native_oss) This comment
-       * suppresses an error when upgrading Flow's support for React. To see the
-       * error delete this comment and run Flow. */
+    _this = _React$PureComponent.call.apply(_React$PureComponent, [this].concat(args)) || this;
+
+    _this._captureRef = function (ref) {
+      // $FlowFixMe
       _this._wrapperListRef = ref;
-    }, _temp), _possibleConstructorReturn(_this, _ret);
+    };
+
+    return _this;
   }
+
+  var _proto = SectionList.prototype;
 
   /**
    * Scrolls to the item at the specified `sectionIndex` and `itemIndex` (within the section)
@@ -130,71 +129,85 @@ var SectionList = function (_React$PureComponent) {
    * Note: cannot scroll to locations outside the render window without specifying the
    * `getItemLayout` prop.
    */
-  SectionList.prototype.scrollToLocation = function scrollToLocation(params) {
-    this._wrapperListRef.scrollToLocation(params);
-  };
-
+  _proto.scrollToLocation = function scrollToLocation(params) {
+    if (this._wrapperListRef != null) {
+      this._wrapperListRef.scrollToLocation(params);
+    }
+  }
   /**
    * Tells the list an interaction has occurred, which should trigger viewability calculations, e.g.
    * if `waitForInteractions` is true and the user has not scrolled. This is typically called by
    * taps on items or by navigation actions.
    */
+  ;
 
-
-  SectionList.prototype.recordInteraction = function recordInteraction() {
+  _proto.recordInteraction = function recordInteraction() {
     var listRef = this._wrapperListRef && this._wrapperListRef.getListRef();
-    listRef && listRef.recordInteraction();
-  };
 
+    listRef && listRef.recordInteraction();
+  }
   /**
    * Displays the scroll indicators momentarily.
    *
    * @platform ios
    */
+  ;
 
-
-  SectionList.prototype.flashScrollIndicators = function flashScrollIndicators() {
+  _proto.flashScrollIndicators = function flashScrollIndicators() {
     var listRef = this._wrapperListRef && this._wrapperListRef.getListRef();
-    listRef && listRef.flashScrollIndicators();
-  };
 
+    listRef && listRef.flashScrollIndicators();
+  }
   /**
    * Provides a handle to the underlying scroll responder.
    */
+  ;
 
-
-  SectionList.prototype.getScrollResponder = function getScrollResponder() {
+  _proto.getScrollResponder = function getScrollResponder() {
     var listRef = this._wrapperListRef && this._wrapperListRef.getListRef();
+
     if (listRef) {
       return listRef.getScrollResponder();
     }
   };
 
-  SectionList.prototype.getScrollableNode = function getScrollableNode() {
+  _proto.getScrollableNode = function getScrollableNode() {
     var listRef = this._wrapperListRef && this._wrapperListRef.getListRef();
+
     if (listRef) {
       return listRef.getScrollableNode();
     }
   };
 
-  SectionList.prototype.setNativeProps = function setNativeProps(props) {
+  _proto.setNativeProps = function setNativeProps(props) {
     var listRef = this._wrapperListRef && this._wrapperListRef.getListRef();
+
     if (listRef) {
       listRef.setNativeProps(props);
     }
   };
 
-  SectionList.prototype.render = function render() {
-    var List = this.props.legacyImplementation ? _UnimplementedView2.default : _VirtualizedSectionList2.default;
-    /* $FlowFixMe(>=0.66.0 site=react_native_fb) This comment suppresses an
-     * error found when Flow v0.66 was deployed. To see the error delete this
-     * comment and run Flow. */
-    return _react2.default.createElement(List, _extends({}, this.props, { ref: this._captureRef }));
+  _proto.render = function render() {
+    return (
+      /* $FlowFixMe(>=0.66.0 site=react_native_fb) This comment suppresses an
+       * error found when Flow v0.66 was deployed. To see the error delete this
+       * comment and run Flow. */
+      React.createElement(_VirtualizedSectionList.default, _extends({}, this.props, {
+        ref: this._captureRef,
+        getItemCount: function getItemCount(items) {
+          return items.length;
+        },
+        getItem: function getItem(items, index) {
+          return items[index];
+        }
+      }))
+    );
   };
 
   return SectionList;
-}(_react2.default.PureComponent);
+}(React.PureComponent);
 
 SectionList.defaultProps = defaultProps;
-exports.default = SectionList;
-module.exports = exports['default'];
+var _default = SectionList;
+exports.default = _default;
+module.exports = exports.default;

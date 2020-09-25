@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
 exports.__esModule = true;
+exports.default = void 0;
 
-var _PanResponder = require('../../vendor/react-native/PanResponder');
-
-var _PanResponder2 = _interopRequireDefault(_PanResponder);
+var _PanResponder = _interopRequireDefault(require("../../vendor/react-native/PanResponder"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = _PanResponder2.default;
-module.exports = exports['default'];
+var _default = _PanResponder.default;
+exports.default = _default;
+module.exports = exports.default;

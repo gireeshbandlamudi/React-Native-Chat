@@ -1,33 +1,30 @@
 /**
- * Copyright (c) 2015-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @providesModule EmitterSubscription
+ * @format
  * 
  */
 'use strict';
 
 exports.__esModule = true;
+exports.default = void 0;
 
-var _EventSubscription2 = require('./EventSubscription');
-
-var _EventSubscription3 = _interopRequireDefault(_EventSubscription2);
+var _EventSubscription2 = _interopRequireDefault(require("./EventSubscription"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; subClass.__proto__ = superClass; }
 
 /**
  * EmitterSubscription represents a subscription with listener and context data.
  */
-var EmitterSubscription = function (_EventSubscription) {
-  _inherits(EmitterSubscription, _EventSubscription);
+var EmitterSubscription =
+/*#__PURE__*/
+function (_EventSubscription) {
+  _inheritsLoose(EmitterSubscription, _EventSubscription);
 
   /**
    * @param {EventEmitter} emitter - The event emitter that registered this
@@ -40,16 +37,14 @@ var EmitterSubscription = function (_EventSubscription) {
    *   listener
    */
   function EmitterSubscription(emitter, subscriber, listener, context) {
-    _classCallCheck(this, EmitterSubscription);
+    var _this;
 
-    var _this = _possibleConstructorReturn(this, _EventSubscription.call(this, subscriber));
-
+    _this = _EventSubscription.call(this, subscriber) || this;
     _this.emitter = emitter;
     _this.listener = listener;
     _this.context = context;
     return _this;
   }
-
   /**
    * Removes this subscription from the emitter that registered it.
    * Note: we're overriding the `remove()` method of EventSubscription here
@@ -58,12 +53,15 @@ var EmitterSubscription = function (_EventSubscription) {
    */
 
 
-  EmitterSubscription.prototype.remove = function remove() {
+  var _proto = EmitterSubscription.prototype;
+
+  _proto.remove = function remove() {
     this.emitter.removeSubscription(this);
   };
 
   return EmitterSubscription;
-}(_EventSubscription3.default);
+}(_EventSubscription2.default);
 
-exports.default = EmitterSubscription;
-module.exports = exports['default'];
+var _default = EmitterSubscription;
+exports.default = _default;
+module.exports = exports.default;

@@ -1,21 +1,20 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @format
+ * 
+ */
 'use strict';
 
 exports.__esModule = true;
+exports.default = void 0;
 
-var _InteractionManager = require('../../../exports/InteractionManager');
-
-var _InteractionManager2 = _interopRequireDefault(_InteractionManager);
+var _InteractionManager = _interopRequireDefault(require("../../../exports/InteractionManager"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } } /**
-                                                                                                                                                           * Copyright (c) 2015-present, Facebook, Inc.
-                                                                                                                                                           *
-                                                                                                                                                           * This source code is licensed under the MIT license found in the
-                                                                                                                                                           * LICENSE file in the root directory of this source tree.
-                                                                                                                                                           *
-                                                                                                                                                           * 
-                                                                                                                                                           */
 
 /**
  * A simple class for batching up invocations of a low-pri callback. A timeout is set to run the
@@ -39,10 +38,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  *     ...
  *   }
  */
-var Batchinator = function () {
+var Batchinator =
+/*#__PURE__*/
+function () {
   function Batchinator(callback, delayMS) {
-    _classCallCheck(this, Batchinator);
-
     this._delay = delayMS;
     this._callback = callback;
   }
@@ -54,39 +53,52 @@ var Batchinator = function () {
    */
 
 
-  Batchinator.prototype.dispose = function dispose() {
-    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { abort: false };
+  var _proto = Batchinator.prototype;
+
+  _proto.dispose = function dispose(options) {
+    if (options === void 0) {
+      options = {
+        abort: false
+      };
+    }
 
     if (this._taskHandle) {
       this._taskHandle.cancel();
+
       if (!options.abort) {
         this._callback();
       }
+
       this._taskHandle = null;
     }
   };
 
-  Batchinator.prototype.schedule = function schedule() {
+  _proto.schedule = function schedule() {
     var _this = this;
 
     if (this._taskHandle) {
       return;
     }
+
     var timeoutHandle = setTimeout(function () {
-      _this._taskHandle = _InteractionManager2.default.runAfterInteractions(function () {
+      _this._taskHandle = _InteractionManager.default.runAfterInteractions(function () {
         // Note that we clear the handle before invoking the callback so that if the callback calls
         // schedule again, it will actually schedule another task.
         _this._taskHandle = null;
+
         _this._callback();
       });
     }, this._delay);
-    this._taskHandle = { cancel: function cancel() {
+    this._taskHandle = {
+      cancel: function cancel() {
         return clearTimeout(timeoutHandle);
-      } };
+      }
+    };
   };
 
   return Batchinator;
 }();
 
-exports.default = Batchinator;
-module.exports = exports['default'];
+var _default = Batchinator;
+exports.default = _default;
+module.exports = exports.default;

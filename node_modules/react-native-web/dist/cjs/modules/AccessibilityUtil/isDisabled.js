@@ -1,18 +1,20 @@
-'use strict';
+"use strict";
 
 exports.__esModule = true;
+exports.default = void 0;
+
 /**
- * Copyright (c) 2017-present, Nicolas Gallagher.
+ * Copyright (c) Nicolas Gallagher.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
  * 
  */
-
 var isDisabled = function isDisabled(props) {
-  return props.disabled || props['aria-disabled'];
+  return props.disabled || Array.isArray(props.accessibilityStates) && props.accessibilityStates.indexOf('disabled') > -1;
 };
 
-exports.default = isDisabled;
-module.exports = exports['default'];
+var _default = isDisabled;
+exports.default = _default;
+module.exports = exports.default;

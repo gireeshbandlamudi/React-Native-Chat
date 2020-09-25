@@ -1,19 +1,18 @@
 /**
- * Copyright (c) 2015-present, Nicolas Gallagher.
+ * Copyright (c) Nicolas Gallagher.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
  * 
  */
-
 import PooledClass from '../../vendor/react-native/PooledClass';
-
 var twoArgumentPooler = PooledClass.twoArgumentPooler;
-
 /**
  * PooledClass representing the bounding rectangle of a region.
  */
+
 function BoundingDimensions(width, height) {
   this.width = width;
   this.height = height;
@@ -29,5 +28,4 @@ BoundingDimensions.getPooledFromElement = function (element) {
 };
 
 PooledClass.addPoolingTo(BoundingDimensions, twoArgumentPooler);
-
 export default BoundingDimensions;

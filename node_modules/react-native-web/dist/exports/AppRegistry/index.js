@@ -1,43 +1,44 @@
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 /**
- * Copyright (c) 2015-present, Nicolas Gallagher.
- * Copyright (c) 2015-present, Facebook, Inc.
+ * Copyright (c) Nicolas Gallagher.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
  * 
  */
-
 import invariant from 'fbjs/lib/invariant';
 import unmountComponentAtNode from '../unmountComponentAtNode';
 import renderApplication, { getApplication as _getApplication } from './renderApplication';
-
-
 var emptyObject = {};
 var runnables = {};
 
 var componentProviderInstrumentationHook = function componentProviderInstrumentationHook(component) {
   return component();
 };
-var wrapperComponentProvider = void 0;
+
+var wrapperComponentProvider;
 
 /**
  * `AppRegistry` is the JS entry point to running all React Native apps.
  */
-var AppRegistry = function () {
-  function AppRegistry() {
-    _classCallCheck(this, AppRegistry);
-  }
+var AppRegistry =
+/*#__PURE__*/
+function () {
+  function AppRegistry() {}
 
   AppRegistry.getAppKeys = function getAppKeys() {
     return Object.keys(runnables);
   };
 
   AppRegistry.getApplication = function getApplication(appKey, appParameters) {
-    invariant(runnables[appKey] && runnables[appKey].getApplication, 'Application ' + appKey + ' has not been registered. ' + 'This is either due to an import error during initialization or failure to call AppRegistry.registerComponent.');
-
+    invariant(runnables[appKey] && runnables[appKey].getApplication, "Application " + appKey + " has not been registered. " + 'This is either due to an import error during initialization or failure to call AppRegistry.registerComponent.');
     return runnables[appKey].getApplication(appParameters);
   };
 
@@ -47,7 +48,11 @@ var AppRegistry = function () {
         return _getApplication(componentProviderInstrumentationHook(componentProvider), appParameters ? appParameters.initialProps : emptyObject, wrapperComponentProvider && wrapperComponentProvider(appParameters));
       },
       run: function run(appParameters) {
-        return renderApplication(componentProviderInstrumentationHook(componentProvider), appParameters.initialProps || emptyObject, appParameters.rootTag, wrapperComponentProvider && wrapperComponentProvider(appParameters), appParameters.callback);
+        return renderApplication(componentProviderInstrumentationHook(componentProvider), wrapperComponentProvider && wrapperComponentProvider(appParameters), appParameters.callback, {
+          hydrate: appParameters.hydrate || false,
+          initialProps: appParameters.initialProps || emptyObject,
+          rootTag: appParameters.rootTag
+        });
       }
     };
     return appKey;
@@ -66,27 +71,27 @@ var AppRegistry = function () {
         AppRegistry.registerComponent(appKey, component);
       }
     });
-  };
-
-  // TODO: fix style sheet creation when using this method
-
+  } // TODO: fix style sheet creation when using this method
+  ;
 
   AppRegistry.registerRunnable = function registerRunnable(appKey, run) {
-    runnables[appKey] = { run: run };
+    runnables[appKey] = {
+      run: run
+    };
     return appKey;
   };
 
   AppRegistry.runApplication = function runApplication(appKey, appParameters) {
-    var isDevelopment = process.env.NODE_ENV !== 'production';
-    if (isDevelopment) {
-      var params = Object.assign({}, appParameters);
-      params.rootTag = '#' + params.rootTag.id;
+    var isDevelopment = process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test';
 
-      console.log('Running application "' + appKey + '" with appParams: ' + JSON.stringify(params) + '.\n' + ('Development-level warnings: ' + (isDevelopment ? 'ON' : 'OFF') + '.\n') + ('Performance optimizations: ' + (isDevelopment ? 'OFF' : 'ON') + '.'));
+    if (isDevelopment) {
+      var params = _objectSpread({}, appParameters);
+
+      params.rootTag = "#" + params.rootTag.id;
+      console.log("Running application \"" + appKey + "\" with appParams:\n", params, "\nDevelopment-level warnings: " + (isDevelopment ? 'ON' : 'OFF') + "." + ("\nPerformance optimizations: " + (isDevelopment ? 'OFF' : 'ON') + "."));
     }
 
-    invariant(runnables[appKey] && runnables[appKey].run, 'Application "' + appKey + '" has not been registered. ' + 'This is either due to an import error during initialization or failure to call AppRegistry.registerComponent.');
-
+    invariant(runnables[appKey] && runnables[appKey].run, "Application \"" + appKey + "\" has not been registered. " + 'This is either due to an import error during initialization or failure to call AppRegistry.registerComponent.');
     runnables[appKey].run(appParameters);
   };
 
@@ -105,4 +110,4 @@ var AppRegistry = function () {
   return AppRegistry;
 }();
 
-export default AppRegistry;
+export { AppRegistry as default };

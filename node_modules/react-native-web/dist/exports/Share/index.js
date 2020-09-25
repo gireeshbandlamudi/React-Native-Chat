@@ -1,26 +1,27 @@
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 /**
- * Copyright (c) 2018-present, Nicolas Gallagher.
- * Copyright (c) 2016-present, Facebook, Inc.
+ * Copyright (c) Nicolas Gallagher.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
  * 
  */
-
 import invariant from 'fbjs/lib/invariant';
 
-var Share = function () {
-  function Share() {
-    _classCallCheck(this, Share);
-  }
+var Share =
+/*#__PURE__*/
+function () {
+  function Share() {}
 
-  Share.share = function share(content) {
-    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  Share.share = function share(content, options) {
+    if (options === void 0) {
+      options = {};
+    }
 
     invariant(typeof content === 'object' && content !== null, 'Content to share must be a valid object');
     invariant(typeof content.url === 'string' || typeof content.message === 'string', 'At least one of URL and message is required');
@@ -36,26 +37,24 @@ var Share = function () {
     } else {
       return Promise.reject(new Error('Share is not supported in this browser'));
     }
-  };
-
+  }
   /**
    * The content was successfully shared.
    */
-
+  ;
 
   _createClass(Share, null, [{
-    key: 'sharedAction',
+    key: "sharedAction",
     get: function get() {
       return 'sharedAction';
     }
-
     /**
      * The dialog has been dismissed.
      * @platform ios
      */
 
   }, {
-    key: 'dismissedAction',
+    key: "dismissedAction",
     get: function get() {
       return 'dismissedAction';
     }

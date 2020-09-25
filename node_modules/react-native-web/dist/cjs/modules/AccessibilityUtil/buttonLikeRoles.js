@@ -1,15 +1,16 @@
 "use strict";
 
 exports.__esModule = true;
+exports.default = void 0;
+
 /**
- * Copyright (c) 2017-present, Nicolas Gallagher.
+ * Copyright (c) Nicolas Gallagher.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
  * 
  */
-
 var buttonLikeRoles = {
   // ARIA button behaves like native 'button' element
   button: true,
@@ -18,6 +19,6 @@ var buttonLikeRoles = {
   // https://www.w3.org/WAI/GL/wiki/Using_ARIA_menus
   menuitem: true
 };
-
-exports.default = buttonLikeRoles;
-module.exports = exports["default"];
+var _default = buttonLikeRoles;
+exports.default = _default;
+module.exports = exports.default;

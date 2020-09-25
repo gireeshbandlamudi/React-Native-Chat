@@ -1,16 +1,18 @@
 /**
- * Copyright (c) 2015-present, Facebook, Inc.
+ * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
+ * @format
  * 
  */
-
 'use strict';
 
 exports.__esModule = true;
-
+exports.fromOrigamiTensionAndFriction = fromOrigamiTensionAndFriction;
+exports.fromBouncinessAndSpeed = fromBouncinessAndSpeed;
+exports.default = void 0;
 
 function stiffnessFromOrigamiValue(oValue) {
   return (oValue - 30) * 3.62 + 194;
@@ -71,13 +73,14 @@ function fromBouncinessAndSpeed(bounciness, speed) {
   var s = normalize(speed / 1.7, 0, 20);
   var bouncyTension = projectNormal(s, 0.5, 200);
   var bouncyFriction = quadraticOutInterpolation(b, b3Nobounce(bouncyTension), 0.01);
-
   return {
     stiffness: stiffnessFromOrigamiValue(bouncyTension),
     damping: dampingFromOrigamiValue(bouncyFriction)
   };
 }
 
-exports.fromOrigamiTensionAndFriction = fromOrigamiTensionAndFriction;
-exports.fromBouncinessAndSpeed = fromBouncinessAndSpeed;
-exports.default = { fromOrigamiTensionAndFriction: fromOrigamiTensionAndFriction, fromBouncinessAndSpeed: fromBouncinessAndSpeed };
+var _default = {
+  fromOrigamiTensionAndFriction: fromOrigamiTensionAndFriction,
+  fromBouncinessAndSpeed: fromBouncinessAndSpeed
+};
+exports.default = _default;

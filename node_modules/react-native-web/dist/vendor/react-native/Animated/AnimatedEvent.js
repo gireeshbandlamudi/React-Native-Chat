@@ -4,20 +4,16 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @noflow
+ * 
  * @format
  */
 'use strict';
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 import AnimatedValue from './nodes/AnimatedValue';
 import NativeAnimatedHelper from './NativeAnimatedHelper';
 import findNodeHandle from '../../../exports/findNodeHandle';
 import invariant from 'fbjs/lib/invariant';
-
 var shouldUseNativeDriver = NativeAnimatedHelper.shouldUseNativeDriver;
-
 
 function attachNativeEvent(viewRef, eventName, argMapping) {
   // Find animated values in `argMapping` and create an array representing their
@@ -39,17 +35,13 @@ function attachNativeEvent(viewRef, eventName, argMapping) {
     }
   };
 
-  invariant(argMapping[0] && argMapping[0].nativeEvent, 'Native driven events only support animated values contained inside `nativeEvent`.');
+  invariant(argMapping[0] && argMapping[0].nativeEvent, 'Native driven events only support animated values contained inside `nativeEvent`.'); // Assume that the event containing `nativeEvent` is always the first argument.
 
-  // Assume that the event containing `nativeEvent` is always the first argument.
   traverse(argMapping[0].nativeEvent, []);
-
   var viewTag = findNodeHandle(viewRef);
-
   eventMappings.forEach(function (mapping) {
     NativeAnimatedHelper.API.addAnimatedEventToView(viewTag, eventName, mapping);
   });
-
   return {
     detach: function detach() {
       eventMappings.forEach(function (mapping) {
@@ -59,18 +51,21 @@ function attachNativeEvent(viewRef, eventName, argMapping) {
   };
 }
 
-var AnimatedEvent = function () {
-  function AnimatedEvent(argMapping) {
-    var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-    _classCallCheck(this, AnimatedEvent);
+var AnimatedEvent =
+/*#__PURE__*/
+function () {
+  function AnimatedEvent(argMapping, config) {
+    if (config === void 0) {
+      config = {};
+    }
 
     this._listeners = [];
-
     this._argMapping = argMapping;
+
     if (config.listener) {
       this.__addListener(config.listener);
     }
+
     this._callListeners = this._callListeners.bind(this);
     this._attachedEvent = null;
     this.__isNative = shouldUseNativeDriver(config);
@@ -80,29 +75,29 @@ var AnimatedEvent = function () {
     }
   }
 
-  AnimatedEvent.prototype.__addListener = function __addListener(callback) {
+  var _proto = AnimatedEvent.prototype;
+
+  _proto.__addListener = function __addListener(callback) {
     this._listeners.push(callback);
   };
 
-  AnimatedEvent.prototype.__removeListener = function __removeListener(callback) {
+  _proto.__removeListener = function __removeListener(callback) {
     this._listeners = this._listeners.filter(function (listener) {
       return listener !== callback;
     });
   };
 
-  AnimatedEvent.prototype.__attach = function __attach(viewRef, eventName) {
+  _proto.__attach = function __attach(viewRef, eventName) {
     invariant(this.__isNative, 'Only native driven events need to be attached.');
-
     this._attachedEvent = attachNativeEvent(viewRef, eventName, this._argMapping);
   };
 
-  AnimatedEvent.prototype.__detach = function __detach(viewTag, eventName) {
+  _proto.__detach = function __detach(viewTag, eventName) {
     invariant(this.__isNative, 'Only native driven events need to be detached.');
-
     this._attachedEvent && this._attachedEvent.detach();
   };
 
-  AnimatedEvent.prototype.__getHandler = function __getHandler() {
+  _proto.__getHandler = function __getHandler() {
     var _this = this;
 
     if (this.__isNative) {
@@ -110,7 +105,7 @@ var AnimatedEvent = function () {
     }
 
     return function () {
-      for (var _len = arguments.length, args = Array(_len), _key2 = 0; _key2 < _len; _key2++) {
+      for (var _len = arguments.length, args = new Array(_len), _key2 = 0; _key2 < _len; _key2++) {
         args[_key2] = arguments[_key2];
       }
 
@@ -132,28 +127,31 @@ var AnimatedEvent = function () {
           traverse(mapping, args[idx], 'arg' + idx);
         });
       }
+
       _this._callListeners.apply(_this, args);
     };
   };
 
-  AnimatedEvent.prototype._callListeners = function _callListeners() {
-    for (var _len2 = arguments.length, args = Array(_len2), _key3 = 0; _key3 < _len2; _key3++) {
+  _proto._callListeners = function _callListeners() {
+    for (var _len2 = arguments.length, args = new Array(_len2), _key3 = 0; _key3 < _len2; _key3++) {
       args[_key3] = arguments[_key3];
     }
 
     this._listeners.forEach(function (listener) {
-      return listener.apply(undefined, args);
+      return listener.apply(void 0, args);
     });
   };
 
-  AnimatedEvent.prototype._validateMapping = function _validateMapping() {
+  _proto._validateMapping = function _validateMapping() {
     var traverse = function traverse(recMapping, recEvt, key) {
       if (typeof recEvt === 'number') {
         invariant(recMapping instanceof AnimatedValue, 'Bad mapping of type ' + typeof recMapping + ' for key ' + key + ', event value must map to AnimatedValue');
         return;
       }
+
       invariant(typeof recMapping === 'object', 'Bad mapping of type ' + typeof recMapping + ' for key ' + key);
       invariant(typeof recEvt === 'object', 'Bad event of type ' + typeof recEvt + ' for key ' + key);
+
       for (var mappingKey in recMapping) {
         traverse(recMapping[mappingKey], recEvt[mappingKey], mappingKey);
       }
@@ -164,4 +162,7 @@ var AnimatedEvent = function () {
 }();
 
 export { AnimatedEvent, attachNativeEvent };
-export default { AnimatedEvent: AnimatedEvent, attachNativeEvent: attachNativeEvent };
+export default {
+  AnimatedEvent: AnimatedEvent,
+  attachNativeEvent: attachNativeEvent
+};

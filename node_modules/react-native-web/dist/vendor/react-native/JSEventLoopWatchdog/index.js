@@ -7,13 +7,9 @@
  * @format
  * 
  */
-
 'use strict';
 
 import infoLog from '../infoLog';
-/* $FlowFixMe(>=0.54.0 site=react_native_oss) This comment suppresses an error
- * found when Flow v0.54 was deployed. To see the error delete this comment and
- * run Flow. */
 import performanceNow from 'fbjs/lib/performanceNow';
 
 /**
@@ -30,7 +26,12 @@ import performanceNow from 'fbjs/lib/performanceNow';
  */
 var JSEventLoopWatchdog = {
   getStats: function getStats() {
-    return { stallCount: stallCount, totalStallTime: totalStallTime, longestStall: longestStall, acceptableBusyTime: acceptableBusyTime };
+    return {
+      stallCount: stallCount,
+      totalStallTime: totalStallTime,
+      longestStall: longestStall,
+      acceptableBusyTime: acceptableBusyTime
+    };
   },
   reset: function reset() {
     infoLog('JSEventLoopWatchdog: reset');
@@ -44,37 +45,44 @@ var JSEventLoopWatchdog = {
   },
   install: function install(_ref) {
     var thresholdMS = _ref.thresholdMS;
-
     acceptableBusyTime = thresholdMS;
+
     if (installed) {
       return;
     }
+
     installed = true;
     lastInterval = performanceNow();
+
     function iteration() {
       var now = performanceNow();
       var busyTime = now - lastInterval;
+
       if (busyTime >= thresholdMS) {
         var stallTime = busyTime - thresholdMS;
         stallCount++;
         totalStallTime += stallTime;
         longestStall = Math.max(longestStall, stallTime);
-        var msg = 'JSEventLoopWatchdog: JS thread busy for ' + busyTime + 'ms. ' + (totalStallTime + 'ms in ' + stallCount + ' stalls so far. ');
+        var msg = "JSEventLoopWatchdog: JS thread busy for " + busyTime + "ms. " + (totalStallTime + "ms in " + stallCount + " stalls so far. ");
         handlers.forEach(function (handler) {
-          msg += handler.onStall({ lastInterval: lastInterval, busyTime: busyTime }) || '';
+          msg += handler.onStall({
+            lastInterval: lastInterval,
+            busyTime: busyTime
+          }) || '';
         });
         infoLog(msg);
       }
+
       handlers.forEach(function (handler) {
         handler.onIterate && handler.onIterate();
       });
       lastInterval = now;
       setTimeout(iteration, thresholdMS / 5);
     }
+
     iteration();
   }
 };
-
 var acceptableBusyTime = 0;
 var installed = false;
 var totalStallTime = 0;
@@ -82,5 +90,4 @@ var stallCount = 0;
 var longestStall = 0;
 var lastInterval = 0;
 var handlers = [];
-
 export default JSEventLoopWatchdog;

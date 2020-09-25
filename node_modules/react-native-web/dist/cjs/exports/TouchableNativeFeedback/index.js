@@ -1,20 +1,20 @@
-'use strict';
+"use strict";
 
 exports.__esModule = true;
+exports.default = void 0;
 
-var _UnimplementedView = require('../../modules/UnimplementedView');
-
-var _UnimplementedView2 = _interopRequireDefault(_UnimplementedView);
+var _UnimplementedView = _interopRequireDefault(require("../../modules/UnimplementedView"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = _UnimplementedView2.default; /**
-                                                * Copyright 2017-present, Nicolas Gallagher
-                                                *
-                                                * This source code is licensed under the MIT license found in the
-                                                * LICENSE file in the root directory of this source tree.
-                                                *
-                                                * 
-                                                */
-
-module.exports = exports['default'];
+/**
+ * Copyright (c) Nicolas Gallagher.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
+var _default = _UnimplementedView.default;
+exports.default = _default;
+module.exports = exports.default;

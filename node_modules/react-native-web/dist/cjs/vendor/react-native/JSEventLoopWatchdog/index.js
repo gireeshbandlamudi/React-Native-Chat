@@ -7,18 +7,14 @@
  * @format
  * 
  */
-
 'use strict';
 
 exports.__esModule = true;
+exports.default = void 0;
 
-var _infoLog = require('../infoLog');
+var _infoLog = _interopRequireDefault(require("../infoLog"));
 
-var _infoLog2 = _interopRequireDefault(_infoLog);
-
-var _performanceNow = require('fbjs/lib/performanceNow');
-
-var _performanceNow2 = _interopRequireDefault(_performanceNow);
+var _performanceNow = _interopRequireDefault(require("fbjs/lib/performanceNow"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -36,55 +32,63 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 var JSEventLoopWatchdog = {
   getStats: function getStats() {
-    return { stallCount: stallCount, totalStallTime: totalStallTime, longestStall: longestStall, acceptableBusyTime: acceptableBusyTime };
+    return {
+      stallCount: stallCount,
+      totalStallTime: totalStallTime,
+      longestStall: longestStall,
+      acceptableBusyTime: acceptableBusyTime
+    };
   },
   reset: function reset() {
-    (0, _infoLog2.default)('JSEventLoopWatchdog: reset');
+    (0, _infoLog.default)('JSEventLoopWatchdog: reset');
     totalStallTime = 0;
     stallCount = 0;
     longestStall = 0;
-    lastInterval = (0, _performanceNow2.default)();
+    lastInterval = (0, _performanceNow.default)();
   },
   addHandler: function addHandler(handler) {
     handlers.push(handler);
   },
   install: function install(_ref) {
     var thresholdMS = _ref.thresholdMS;
-
     acceptableBusyTime = thresholdMS;
+
     if (installed) {
       return;
     }
+
     installed = true;
-    lastInterval = (0, _performanceNow2.default)();
+    lastInterval = (0, _performanceNow.default)();
+
     function iteration() {
-      var now = (0, _performanceNow2.default)();
+      var now = (0, _performanceNow.default)();
       var busyTime = now - lastInterval;
+
       if (busyTime >= thresholdMS) {
         var stallTime = busyTime - thresholdMS;
         stallCount++;
         totalStallTime += stallTime;
         longestStall = Math.max(longestStall, stallTime);
-        var msg = 'JSEventLoopWatchdog: JS thread busy for ' + busyTime + 'ms. ' + (totalStallTime + 'ms in ' + stallCount + ' stalls so far. ');
+        var msg = "JSEventLoopWatchdog: JS thread busy for " + busyTime + "ms. " + (totalStallTime + "ms in " + stallCount + " stalls so far. ");
         handlers.forEach(function (handler) {
-          msg += handler.onStall({ lastInterval: lastInterval, busyTime: busyTime }) || '';
+          msg += handler.onStall({
+            lastInterval: lastInterval,
+            busyTime: busyTime
+          }) || '';
         });
-        (0, _infoLog2.default)(msg);
+        (0, _infoLog.default)(msg);
       }
+
       handlers.forEach(function (handler) {
         handler.onIterate && handler.onIterate();
       });
       lastInterval = now;
       setTimeout(iteration, thresholdMS / 5);
     }
+
     iteration();
   }
 };
-/* $FlowFixMe(>=0.54.0 site=react_native_oss) This comment suppresses an error
- * found when Flow v0.54 was deployed. To see the error delete this comment and
- * run Flow. */
-
-
 var acceptableBusyTime = 0;
 var installed = false;
 var totalStallTime = 0;
@@ -92,6 +96,6 @@ var stallCount = 0;
 var longestStall = 0;
 var lastInterval = 0;
 var handlers = [];
-
-exports.default = JSEventLoopWatchdog;
-module.exports = exports['default'];
+var _default = JSEventLoopWatchdog;
+exports.default = _default;
+module.exports = exports.default;

@@ -9,33 +9,34 @@
  */
 'use strict';
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; subClass.__proto__ = superClass; }
 
 import AnimatedNode from './AnimatedNode';
 import AnimatedWithChildren from './AnimatedWithChildren';
 import NativeAnimatedHelper from '../NativeAnimatedHelper';
 
-var AnimatedTransform = function (_AnimatedWithChildren) {
-  _inherits(AnimatedTransform, _AnimatedWithChildren);
+var AnimatedTransform =
+/*#__PURE__*/
+function (_AnimatedWithChildren) {
+  _inheritsLoose(AnimatedTransform, _AnimatedWithChildren);
 
   function AnimatedTransform(transforms) {
-    _classCallCheck(this, AnimatedTransform);
+    var _this;
 
-    var _this = _possibleConstructorReturn(this, _AnimatedWithChildren.call(this));
-
+    _this = _AnimatedWithChildren.call(this) || this;
     _this._transforms = transforms;
     return _this;
   }
 
-  AnimatedTransform.prototype.__makeNative = function __makeNative() {
+  var _proto = AnimatedTransform.prototype;
+
+  _proto.__makeNative = function __makeNative() {
     _AnimatedWithChildren.prototype.__makeNative.call(this);
+
     this._transforms.forEach(function (transform) {
       for (var key in transform) {
         var value = transform[key];
+
         if (value instanceof AnimatedNode) {
           value.__makeNative();
         }
@@ -43,26 +44,31 @@ var AnimatedTransform = function (_AnimatedWithChildren) {
     });
   };
 
-  AnimatedTransform.prototype.__getValue = function __getValue() {
+  _proto.__getValue = function __getValue() {
     return this._transforms.map(function (transform) {
       var result = {};
+
       for (var key in transform) {
         var value = transform[key];
+
         if (value instanceof AnimatedNode) {
           result[key] = value.__getValue();
         } else {
           result[key] = value;
         }
       }
+
       return result;
     });
   };
 
-  AnimatedTransform.prototype.__getAnimatedValue = function __getAnimatedValue() {
+  _proto.__getAnimatedValue = function __getAnimatedValue() {
     return this._transforms.map(function (transform) {
       var result = {};
+
       for (var key in transform) {
         var value = transform[key];
+
         if (value instanceof AnimatedNode) {
           result[key] = value.__getAnimatedValue();
         } else {
@@ -70,16 +76,18 @@ var AnimatedTransform = function (_AnimatedWithChildren) {
           result[key] = value;
         }
       }
+
       return result;
     });
   };
 
-  AnimatedTransform.prototype.__attach = function __attach() {
+  _proto.__attach = function __attach() {
     var _this2 = this;
 
     this._transforms.forEach(function (transform) {
       for (var key in transform) {
         var value = transform[key];
+
         if (value instanceof AnimatedNode) {
           value.__addChild(_this2);
         }
@@ -87,26 +95,29 @@ var AnimatedTransform = function (_AnimatedWithChildren) {
     });
   };
 
-  AnimatedTransform.prototype.__detach = function __detach() {
+  _proto.__detach = function __detach() {
     var _this3 = this;
 
     this._transforms.forEach(function (transform) {
       for (var key in transform) {
         var value = transform[key];
+
         if (value instanceof AnimatedNode) {
           value.__removeChild(_this3);
         }
       }
     });
+
     _AnimatedWithChildren.prototype.__detach.call(this);
   };
 
-  AnimatedTransform.prototype.__getNativeConfig = function __getNativeConfig() {
+  _proto.__getNativeConfig = function __getNativeConfig() {
     var transConfigs = [];
 
     this._transforms.forEach(function (transform) {
       for (var key in transform) {
         var value = transform[key];
+
         if (value instanceof AnimatedNode) {
           transConfigs.push({
             type: 'animated',
